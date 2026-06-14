@@ -44,4 +44,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    // ML Kit bundled text recognition (works fully on-device, no network required at runtime)
+    implementation("com.google.mlkit:text-recognition:16.0.1")
 }

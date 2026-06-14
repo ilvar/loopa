@@ -31,6 +31,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!--
+        Recognized digits overlay — shown when ML Kit finds digit sequences
+        whose bounding box occupies < 5% of the camera frame.
+    -->
+    <TextView
+        android:id="@+id/digitsText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="12dp"
+        android:background="#CC000000"
+        android:textColor="@android:color/white"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Permission prompt shown when CAMERA permission is missing -->
     <LinearLayout
         android:id="@+id/permissionPanel"
