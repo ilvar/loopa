@@ -1,6 +1,18 @@
 <resources>
-    <string name="app_name">Loopa</string>
+    <string name="app_name">Looking Glass</string>
+    <string name="settings_rescan">Rescan</string>
+    <string name="settings_rescan_done">Cameras rescanned</string>
     <string name="permission_rationale">Camera permission is required to show the camera preview.</string>
     <string name="grant_permission">Grant permission</string>
     <string name="camera_permission_denied">Camera permission denied. Enable it in Settings to use Loopa.</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_ocr">Number recognition (OCR)</string>
+    <string name="settings_lens">Zoom</string>
+    <string name="settings_zoom_optical">Optical (native lens)</string>
+    <string name="settings_zoom_digital">Digital crop</string>
+    <string name="settings_debug">Detected cameras</string>
+    <string name="settings_debug_copy">Copy</string>
+    <string name="pinch_to_zoom_hint">Opening stock camera — pinch to 10x</string>
+    <string name="no_stock_camera">No camera app available</string>
+    <string name="lens_unavailable_fallback">Selected lens unavailable — fell back to default</string>
 </resources>
