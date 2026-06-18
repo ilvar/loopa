@@ -16,10 +16,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Settings shortcut (top-right) -->
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_settings"
+        android:background="#88000000"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/settings_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Overlay describing the active zoom / lens -->
     <TextView
         android:id="@+id/infoText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="10dp"
@@ -28,8 +42,11 @@
         android:textSize="14sp"
         android:fontFamily="monospace"
         android:text="…"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_default="wrap"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/settingsButton" />
 
     <!--
         Recognized digits overlay — shown when ML Kit finds digit sequences
