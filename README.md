@@ -1,8 +1,9 @@
 # Loopa — 10x Tele Camera
 
-A minimal Android app that opens a full-screen camera preview locked to roughly
-**10x magnification**, automatically using the device's **telephoto lens when one
-is available**.
+A minimal Android app that opens a full-screen camera preview at a chosen
+magnification (default **10x**), automatically using the device's **telephoto
+lens when one is available**. The zoom level is selectable from a Settings
+screen.
 
 ## How it works
 
@@ -73,4 +74,12 @@ sdk.dir=/path/to/Android/sdk
 ## Permissions
 
 The app requests `CAMERA` at runtime. If permission is denied, a prompt with a
-"Grant permission" button is shown instead of the preview.
+"Grant permission" button is shown instead of the preview. The app makes no
+network connections and collects no data.
+
+## Publishing
+
+The repo is prepared for release to **Google Play** and **F-Droid** — a release
+signing hook, a [privacy policy](docs/privacy-policy.md), and Fastlane store
+metadata are all in place. See **[PUBLISHING.md](PUBLISHING.md)** for the
+step-by-step guide.

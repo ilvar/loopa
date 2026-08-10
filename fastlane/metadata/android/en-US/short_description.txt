@@ -1,0 +1,1 @@
+A camera magnifier locked to 10x, using your phone's telephoto lens.

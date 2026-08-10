@@ -1,0 +1,5 @@
+First release.
+
+* Full-screen camera preview locked to ~10x magnification
+* Automatically uses the telephoto lens when available
+* Active-lens and zoom readout overlay

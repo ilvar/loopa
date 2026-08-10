@@ -8,7 +8,6 @@ object Prefs {
 
     private const val FILE = "loopa_prefs"
     private const val KEY_ZOOM = "target_zoom"
-    private const val KEY_OCR = "ocr_enabled"
     private const val KEY_LENS_CACHE = "lens_cache"
 
     private fun prefs(ctx: Context) =
@@ -20,13 +19,6 @@ object Prefs {
 
     fun setTargetZoom(ctx: Context, value: Float) {
         prefs(ctx).edit().putFloat(KEY_ZOOM, value).apply()
-    }
-
-    fun ocrEnabled(ctx: Context): Boolean =
-        prefs(ctx).getBoolean(KEY_OCR, true)
-
-    fun setOcrEnabled(ctx: Context, value: Boolean) {
-        prefs(ctx).edit().putBoolean(KEY_OCR, value).apply()
     }
 
     /** Raw lens-cache blob; format defined by `LensRegistry`. */

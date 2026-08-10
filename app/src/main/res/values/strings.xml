@@ -6,7 +6,6 @@
     <string name="grant_permission">Grant permission</string>
     <string name="camera_permission_denied">Camera permission denied. Enable it in Settings to use Loopa.</string>
     <string name="settings_title">Settings</string>
-    <string name="settings_ocr">Number recognition (OCR)</string>
     <string name="settings_lens">Zoom</string>
     <string name="settings_zoom_optical">Optical (native lens)</string>
     <string name="settings_zoom_digital">Digital crop</string>

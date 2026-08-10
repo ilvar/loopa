@@ -17,7 +17,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import kotlin.math.abs
 
 class SettingsActivity : AppCompatActivity() {
@@ -25,12 +24,6 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        val ocrSwitch = findViewById<SwitchCompat>(R.id.ocrSwitch)
-        ocrSwitch.isChecked = Prefs.ocrEnabled(this)
-        ocrSwitch.setOnCheckedChangeListener { _, checked ->
-            Prefs.setOcrEnabled(this, checked)
-        }
 
         val zoomGroup = findViewById<RadioGroup>(R.id.lensGroup)
         val levels = ZoomOptions.list(this)

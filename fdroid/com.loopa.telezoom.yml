@@ -1,0 +1,33 @@
+# F-Droid build metadata for Loopa.
+#
+# This file is a TEMPLATE. F-Droid does not read it from this repo — when you
+# submit the app you copy it into the fdroiddata repository at
+# metadata/com.loopa.telezoom.yml and open a merge request:
+#   https://gitlab.com/fdroid/fdroiddata
+#
+# The `commit:` below must point at a tag that exists in this repo (e.g. tag the
+# release `v1.0` before submitting). F-Droid builds from source on their own
+# servers and signs with their own key, so no keystore is needed here.
+
+Categories:
+  - Multimedia
+License: MIT
+AuthorName: Arcady Chumachenko
+SourceCode: https://github.com/ilvar/loopa
+IssueTracker: https://github.com/ilvar/loopa/issues
+
+RepoType: git
+Repo: https://github.com/ilvar/loopa.git
+
+Builds:
+  - versionName: "1.0"
+    versionCode: 1
+    commit: v1.0
+    subdir: app
+    gradle:
+      - yes
+
+AutoUpdateMode: Version v%v
+UpdateCheckMode: Tags
+CurrentVersion: "1.0"
+CurrentVersionCode: 1
