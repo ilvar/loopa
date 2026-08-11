@@ -2,7 +2,7 @@
 #
 # This file is a TEMPLATE. F-Droid does not read it from this repo — when you
 # submit the app you copy it into the fdroiddata repository at
-# metadata/com.loopa.telezoom.yml and open a merge request:
+# metadata/com.ilvar.lookingglass.yml and open a merge request:
 #   https://gitlab.com/fdroid/fdroiddata
 #
 # The `commit:` below must point at a tag that exists in this repo (e.g. tag the

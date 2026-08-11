@@ -34,7 +34,7 @@ breakdown of the effective zoom.
 ```
 app/src/main/
 ├── AndroidManifest.xml                     # CAMERA permission, launcher activity
-├── java/com/loopa/telezoom/MainActivity.kt # Camera2 setup, lens selection, zoom
+├── java/com/ilvar/lookingglass/MainActivity.kt # Camera2 setup, lens selection, zoom
 └── res/
     ├── layout/activity_main.xml            # TextureView preview + info overlay
     ├── values/                             # strings, theme, colors

@@ -1,4 +1,4 @@
-package com.loopa.telezoom
+package com.ilvar.lookingglass
 
 import android.Manifest
 import android.content.Context
@@ -28,7 +28,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.loopa.telezoom.databinding.ActivityMainBinding
+import com.ilvar.lookingglass.databinding.ActivityMainBinding
 import java.util.concurrent.Executor
 import kotlin.math.abs
 

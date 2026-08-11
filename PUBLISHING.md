@@ -76,9 +76,9 @@ The repo is FOSS with no proprietary blobs, so it qualifies for the main repo.
    git push origin v1.0
    ```
 2. **Submit the recipe** — the template at
-   [`fdroid/com.loopa.telezoom.yml`](fdroid/com.loopa.telezoom.yml) goes into the
+   [`fdroid/com.ilvar.lookingglass.yml`](fdroid/com.ilvar.lookingglass.yml) goes into the
    [fdroiddata](https://gitlab.com/fdroid/fdroiddata) repo at
-   `metadata/com.loopa.telezoom.yml`. Either open a merge request there, or file a
+   `metadata/com.ilvar.lookingglass.yml`. Either open a merge request there, or file a
    [Request For Packaging](https://gitlab.com/fdroid/rfp/-/issues) issue and let a
    maintainer add it.
 3. F-Droid builds from source on their servers and **signs with their own key** —

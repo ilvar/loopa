@@ -1,4 +1,4 @@
-package com.loopa.telezoom
+package com.ilvar.lookingglass
 
 import android.content.Context
 import android.hardware.camera2.CameraCharacteristics

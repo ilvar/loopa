@@ -18,11 +18,11 @@ val keystoreProperties = Properties().apply {
 val hasReleaseSigning = keystorePropertiesFile.exists()
 
 android {
-    namespace = "com.loopa.telezoom"
+    namespace = "com.ilvar.lookingglass"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.loopa.telezoom"
+        applicationId = "com.ilvar.lookingglass"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
