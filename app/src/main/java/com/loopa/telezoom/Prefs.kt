@@ -6,7 +6,7 @@ object Prefs {
     /** Default target magnification when the user has not picked one. */
     const val DEFAULT_ZOOM = 10f
 
-    private const val FILE = "loopa_prefs"
+    private const val FILE = "looking_glass_prefs"
     private const val KEY_ZOOM = "target_zoom"
     private const val KEY_LENS_CACHE = "lens_cache"
 

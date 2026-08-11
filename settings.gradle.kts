@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Loopa"
+rootProject.name = "Looking Glass"
 include(":app")

@@ -62,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.debugText).text = debug
         findViewById<Button>(R.id.copyDebugButton).setOnClickListener {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            cm.setPrimaryClip(ClipData.newPlainText("Loopa camera diagnostics", debug))
+            cm.setPrimaryClip(ClipData.newPlainText("Looking Glass camera diagnostics", debug))
             Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
         }
     }

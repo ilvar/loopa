@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     private var previewSize: Size = Size(1920, 1080)
 
     companion object {
-        private const val TAG = "Loopa"
+        private const val TAG = "LookingGlass"
     }
 
     // region Lifecycle

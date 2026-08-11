@@ -1,7 +1,7 @@
-Loopa turns your phone into a simple digital magnifier locked to roughly 10x
+Looking Glass turns your phone into a simple digital magnifier locked to roughly 10x
 magnification.
 
-On phones that have a dedicated telephoto camera, Loopa automatically selects
+On phones that have a dedicated telephoto camera, Looking Glass automatically selects
 that lens so most of the magnification is optical, keeping the image sharp. On
 phones without a telephoto lens it falls back to the main camera and reaches 10x
 digitally, up to the hardware limit.
@@ -12,7 +12,7 @@ Features:
 * On-screen readout of the active lens and the optical x digital zoom breakdown
 * Works fully offline — no internet permission, no accounts, no ads, no tracking
 
-Loopa collects no data. The camera feed is processed on-device, in real time,
+Looking Glass collects no data. The camera feed is processed on-device, in real time,
 and is never recorded or transmitted.
 
 Requires the Camera permission to show the preview.

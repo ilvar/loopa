@@ -1,17 +1,17 @@
-# Privacy Policy — Loopa
+# Privacy Policy — Looking Glass
 
 _Last updated: 2026-06-14_
 
-Loopa is a camera magnifier app. This policy explains what the app does and does
+Looking Glass is a camera magnifier app. This policy explains what the app does and does
 not do with your data.
 
 ## Summary
 
-**Loopa does not collect, store, transmit, or share any personal data.**
+**Looking Glass does not collect, store, transmit, or share any personal data.**
 
 ## Camera
 
-- Loopa requests the **Camera** permission solely to display a live, magnified
+- Looking Glass requests the **Camera** permission solely to display a live, magnified
   camera preview on your screen.
 - The camera feed is processed **on your device, in memory, in real time**. It is
   **not recorded, saved, uploaded, or transmitted** anywhere.
@@ -19,7 +19,7 @@ not do with your data.
 
 ## Data collection
 
-Loopa contains **no analytics, advertising, tracking, or crash-reporting SDKs**.
+Looking Glass contains **no analytics, advertising, tracking, or crash-reporting SDKs**.
 The app makes **no network connections** and requires no internet permission.
 
 ## Permissions
@@ -30,7 +30,7 @@ The app makes **no network connections** and requires no internet permission.
 
 ## Children's privacy
 
-Because Loopa collects no data at all, it collects no data from children.
+Because Looking Glass collects no data at all, it collects no data from children.
 
 ## Changes
 

@@ -1,6 +1,6 @@
-# Publishing Loopa
+# Publishing Looking Glass
 
-This guide covers releasing Loopa to **Google Play** and **F-Droid**. The repo is
+This guide covers releasing Looking Glass to **Google Play** and **F-Droid**. The repo is
 already prepared for both: it is fully open-source (MIT, no proprietary
 dependencies), has a release signing hook, a privacy policy, and Fastlane store
 metadata.
@@ -19,11 +19,11 @@ metadata.
 ## 1. Create a signing key (one time)
 
 ```bash
-keytool -genkey -v -keystore loopa-release.jks -alias loopa \
+keytool -genkey -v -keystore looking-glass-release.jks -alias lookingglass \
   -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-Keep `loopa-release.jks` safe and **out of git** (`*.jks` is git-ignored). If you
+Keep `looking-glass-release.jks` safe and **out of git** (`*.jks` is git-ignored). If you
 lose it and are not on Play App Signing, you can never update the Play listing.
 
 Then copy the sample and fill in your values:

@@ -1,4 +1,4 @@
-# Loopa — 10x Tele Camera
+# Looking Glass — 10x Tele Camera
 
 A minimal Android app that opens a full-screen camera preview at a chosen
 magnification (default **10x**), automatically using the device's **telephoto
