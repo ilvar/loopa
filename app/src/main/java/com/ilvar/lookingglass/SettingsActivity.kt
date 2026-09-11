@@ -1,4 +1,4 @@
-package com.loopa.telezoom
+package com.ilvar.lookingglass
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -17,7 +17,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import kotlin.math.abs
 
 class SettingsActivity : AppCompatActivity() {
@@ -25,12 +24,6 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        val ocrSwitch = findViewById<SwitchCompat>(R.id.ocrSwitch)
-        ocrSwitch.isChecked = Prefs.ocrEnabled(this)
-        ocrSwitch.setOnCheckedChangeListener { _, checked ->
-            Prefs.setOcrEnabled(this, checked)
-        }
 
         val zoomGroup = findViewById<RadioGroup>(R.id.lensGroup)
         val levels = ZoomOptions.list(this)
@@ -69,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.debugText).text = debug
         findViewById<Button>(R.id.copyDebugButton).setOnClickListener {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            cm.setPrimaryClip(ClipData.newPlainText("Loopa camera diagnostics", debug))
+            cm.setPrimaryClip(ClipData.newPlainText("Looking Glass camera diagnostics", debug))
             Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
         }
     }

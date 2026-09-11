@@ -1,4 +1,4 @@
-package com.loopa.telezoom
+package com.ilvar.lookingglass
 
 import android.content.Context
 import android.hardware.camera2.CameraCharacteristics
@@ -37,7 +37,7 @@ data class LensInfo(
  * [list] returns from cache when possible; [rescan] forces a fresh probe.
  */
 object LensRegistry {
-    private const val TAG = "Loopa"
+    private const val TAG = "LookingGlass"
 
     /** Cached if available, otherwise a fresh [rescan]. */
     fun list(ctx: Context): List<LensInfo> = readCache(ctx) ?: rescan(ctx)

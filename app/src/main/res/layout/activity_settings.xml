@@ -20,23 +20,6 @@
             android:textStyle="bold"
             android:paddingBottom="16dp" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/ocrSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_ocr"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33FFFFFF"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

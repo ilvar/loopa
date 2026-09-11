@@ -1,10 +1,9 @@
-package com.loopa.telezoom
+package com.ilvar.lookingglass
 
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCaptureSession
@@ -14,12 +13,10 @@ import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CaptureRequest
 import android.hardware.camera2.params.OutputConfiguration
 import android.hardware.camera2.params.SessionConfiguration
-import android.media.ImageReader
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
-import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
 import android.util.Range
@@ -31,30 +28,22 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.TextRecognizer
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.loopa.telezoom.databinding.ActivityMainBinding
+import com.ilvar.lookingglass.databinding.ActivityMainBinding
 import java.util.concurrent.Executor
 import kotlin.math.abs
 
 /**
- * Full-screen camera preview locked to ~10x magnification, using the telephoto
- * lens when available. Also runs on-device ML Kit OCR at ~2fps; any digit
- * sequences whose bounding box occupies less than 5% of the frame are enlarged
- * and displayed at the bottom of the screen.
+ * Full-screen camera preview locked to the user's selected magnification
+ * (default ~10x), using the telephoto lens when one is available.
  */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var cameraManager: CameraManager
-    private lateinit var textRecognizer: TextRecognizer
 
     private var cameraDevice: CameraDevice? = null
     private var captureSession: CameraCaptureSession? = null
     private var previewRequestBuilder: CaptureRequest.Builder? = null
-    private var imageReader: ImageReader? = null
 
     private var backgroundThread: HandlerThread? = null
     private var backgroundHandler: Handler? = null
@@ -63,20 +52,9 @@ class MainActivity : AppCompatActivity() {
 
     private var chosenCamera: CameraChoice? = null
     private var previewSize: Size = Size(1920, 1080)
-    private var analysisSize: Size = Size(640, 480)
-
-    // Degrees the sensor image must be rotated to match the portrait display orientation.
-    // Computed once per camera open and used when creating InputImage for ML Kit.
-    private var sensorRotation = 0
-
-    private var lastAnalysisTime = 0L
 
     companion object {
-        private const val TAG = "Loopa"
-        private const val ANALYSIS_INTERVAL_MS = 500L
-        // Bounding-box-area / frame-area threshold for "small" numbers.
-        private const val SMALL_THRESHOLD = 0.05f
-        private val DIGIT_REGEX = Regex("""\d+""")
+        private const val TAG = "LookingGlass"
     }
 
     // region Lifecycle
@@ -98,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
-        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
         binding.grantButton.setOnClickListener {
             requestPermission.launch(Manifest.permission.CAMERA)
@@ -140,11 +117,6 @@ class MainActivity : AppCompatActivity() {
         closeCamera()
         stopBackgroundThread()
         super.onPause()
-    }
-
-    override fun onDestroy() {
-        textRecognizer.close()
-        super.onDestroy()
     }
 
     // endregion
@@ -268,9 +240,6 @@ class MainActivity : AppCompatActivity() {
         }
         chosenCamera = choice
         previewSize = choosePreviewSize(choice.characteristics)
-        analysisSize = chooseAnalysisSize(choice.characteristics)
-        sensorRotation = choice.characteristics
-            .get(CameraCharacteristics.SENSOR_ORIENTATION) ?: 0
 
         try {
             isOpeningCamera = true
@@ -336,23 +305,6 @@ class MainActivity : AppCompatActivity() {
         texture.setDefaultBufferSize(previewSize.width, previewSize.height)
         val previewSurface = Surface(texture)
 
-        // OCR analysis surface is optional — skipped entirely when the user
-        // has disabled number recognition in Settings.
-        val ocrEnabled = Prefs.ocrEnabled(this)
-        imageReader?.close()
-        imageReader = null
-        val analysisSurface: Surface? = if (ocrEnabled) {
-            ImageReader.newInstance(
-                analysisSize.width, analysisSize.height, ImageFormat.YUV_420_888, 2
-            ).also {
-                it.setOnImageAvailableListener(imageAnalysisListener, backgroundHandler)
-                imageReader = it
-            }.surface
-        } else {
-            runOnUiThread { binding.digitsText.visibility = View.GONE }
-            null
-        }
-
         val sessionCallback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
                 if (cameraDevice == null) return
@@ -373,11 +325,10 @@ class MainActivity : AppCompatActivity() {
         try {
             val builder = device.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
             builder.addTarget(previewSurface)
-            analysisSurface?.let { builder.addTarget(it) }
             applyZoom(builder)
             previewRequestBuilder = builder
 
-            val surfaces = listOfNotNull(previewSurface, analysisSurface)
+            val surfaces = listOf(previewSurface)
 
             if (choice.physicalId != null &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -440,7 +391,6 @@ class MainActivity : AppCompatActivity() {
             isOpeningCamera = false
             captureSession?.close(); captureSession = null
             cameraDevice?.close(); cameraDevice = null
-            imageReader?.close(); imageReader = null
         } catch (e: Exception) {
             Log.w(TAG, "Error closing camera", e)
         }
@@ -456,100 +406,6 @@ class MainActivity : AppCompatActivity() {
         val sizes = map.getOutputSizes(SurfaceTexture::class.java) ?: return Size(1920, 1080)
         val target = 1920 * 1080
         return sizes.minByOrNull { abs(it.width * it.height - target) } ?: sizes.first()
-    }
-
-    /**
-     * Pick the largest YUV_420_888 size that fits within 640×480.
-     * This guarantees compatibility with simultaneous PREVIEW output (Camera2
-     * mandatory stream table), and is large enough for reliable OCR while keeping
-     * analysis cheap.
-     */
-    private fun chooseAnalysisSize(c: CameraCharacteristics): Size {
-        val map = c.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-            ?: return Size(640, 480)
-        val sizes = map.getOutputSizes(ImageFormat.YUV_420_888) ?: return Size(640, 480)
-        return sizes
-            .filter { it.width <= 640 && it.height <= 480 }
-            .maxByOrNull { it.width * it.height }
-            ?: sizes.minByOrNull { it.width * it.height }
-            ?: Size(640, 480)
-    }
-
-    // endregion
-
-    // region OCR / digit recognition
-
-    /**
-     * Throttled frame consumer. Acquires the latest frame, skips it if the last
-     * analysis was within ANALYSIS_INTERVAL_MS, otherwise hands it to ML Kit.
-     * The image must stay open until ML Kit finishes — it is closed in both the
-     * success and failure callbacks.
-     */
-    private val imageAnalysisListener = ImageReader.OnImageAvailableListener { reader ->
-        val image = reader.acquireLatestImage() ?: return@OnImageAvailableListener
-        val now = SystemClock.elapsedRealtime()
-        if (now - lastAnalysisTime < ANALYSIS_INTERVAL_MS) {
-            image.close()
-            return@OnImageAvailableListener
-        }
-        lastAnalysisTime = now
-
-        try {
-            val inputImage = InputImage.fromMediaImage(image, sensorRotation)
-            textRecognizer.process(inputImage)
-                .addOnSuccessListener { result ->
-                    processOcrResult(result, analysisSize.width, analysisSize.height)
-                    image.close()
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "OCR failed", e)
-                    image.close()
-                }
-        } catch (e: Exception) {
-            Log.e(TAG, "InputImage creation failed", e)
-            image.close()
-        }
-    }
-
-    /**
-     * For each recognized text block, extract digit sequences and check whether
-     * the bounding box occupies less than [SMALL_THRESHOLD] of the frame area.
-     * If so, collect those digits for display at the bottom of the screen.
-     *
-     * We check at the TextBlock level so that a multi-digit number that spans
-     * one block is treated as a single entity for the area test.
-     */
-    private fun processOcrResult(
-        result: com.google.mlkit.vision.text.Text,
-        frameWidth: Int,
-        frameHeight: Int
-    ) {
-        val frameArea = frameWidth * frameHeight
-        val smallDigits = mutableListOf<String>()
-
-        for (block in result.textBlocks) {
-            val bbox = block.boundingBox ?: continue
-            val digits = DIGIT_REGEX.findAll(block.text).joinToString(" ") { it.value }
-            if (digits.isBlank()) continue
-
-            val bboxArea = bbox.width() * bbox.height()
-            val ratio = bboxArea.toFloat() / frameArea
-            Log.v(TAG, "Block \"${block.text}\" bbox=$bboxArea frame=$frameArea ratio=${"%.3f".format(ratio)}")
-
-            if (ratio < SMALL_THRESHOLD) {
-                smallDigits.add(digits)
-            }
-        }
-
-        val displayText = smallDigits.joinToString("   ")
-        runOnUiThread {
-            if (displayText.isNotEmpty()) {
-                binding.digitsText.text = displayText
-                binding.digitsText.visibility = View.VISIBLE
-            } else {
-                binding.digitsText.visibility = View.GONE
-            }
-        }
     }
 
     // endregion
